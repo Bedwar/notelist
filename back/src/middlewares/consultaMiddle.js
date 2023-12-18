@@ -1,3 +1,5 @@
+const User = require("../models/User")
+
 const validateNome = (req,res,next) =>{
     const {body} = req
 
@@ -26,8 +28,22 @@ const validateStatus = (req,res,next) =>{
     next()
 }
 
+const validateId = async (req,res)=> {
+
+    const id = req.params.id
+
+    const user = await User.findById(id)
+
+  //  if(!user){
+
+  res.status(200).json({user})
+
+    
+}
+
 module.exports = {
     validateNome,
     validateStatus,
+    validateId
 
 }

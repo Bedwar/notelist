@@ -16,5 +16,8 @@ router.put('/consulta/:ibm',
                         consultaMiiddle.validateNome, consultaMiiddle.validateStatus, consultaController.updatePosto)
 router.post('/auth', authController.authentication )
 router.post('/auth/login', authController.login )
+router.get('/user/:id', consultaMiiddle.validateId )
+
+
 
 module.exports = router;
