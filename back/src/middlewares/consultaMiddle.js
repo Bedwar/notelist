@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const jwt = require('jsonwebtoken')
 
 const validateNome = (req,res,next) =>{
     const {body} = req
@@ -28,7 +29,28 @@ const validateStatus = (req,res,next) =>{
     next()
 }
 
-const validateId = async (req,res)=> {
+const validateToken =  (req, res, next) => {
+    const authHeader =  req.headers['authorization']
+    const token = authHeader && authHeader.split(" ")[1]
+
+
+    if(!token){
+        return res.status(401).json({msg: 'Necssário ter acesso Admin'})
+    }    
+
+    try {
+        const secret = process.env.SECRET
+        jwt.verify(token, secret)
+
+        next()
+
+    } catch (error) {
+        res.status(400).josn({msg: 'Token inválido'})
+        
+    }
+}
+
+const validateId = async (req,res) => {
 
     const id = req.params.id
 
@@ -37,13 +59,13 @@ const validateId = async (req,res)=> {
   //  if(!user){
 
   res.status(200).json({user})
-
     
 }
 
 module.exports = {
     validateNome,
     validateStatus,
-    validateId
+    validateId,
+    validateToken
 
 }

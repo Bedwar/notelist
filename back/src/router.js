@@ -20,4 +20,6 @@ router.get('/user/:id', consultaMiiddle.validateId )
 
 
 
+
+
 module.exports = router;
